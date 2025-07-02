@@ -427,7 +427,7 @@ function App() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="https://link-externo.com/Sistema%20Posvenda%20Cimasp.exe"
+                href="https://www.mediafire.com/file/16wyxu59x714c75/Sistema_Controle_pos_venda_.exe/file"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white text-blue-600 px-8 py-4 rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 font-semibold"
