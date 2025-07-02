@@ -427,8 +427,9 @@ function App() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="/releases/Sistema%20Posvenda%20Cimasp.exe"
-                download
+                href="https://link-externo.com/Sistema%20Posvenda%20Cimasp.exe"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-white text-blue-600 px-8 py-4 rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 font-semibold"
               >
                 <Download className="w-5 h-5" />

@@ -22,3 +22,5 @@ sistema
 *.sln
 *.sw?
 .env
+releases/
+*.exe
