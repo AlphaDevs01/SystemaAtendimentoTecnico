@@ -29,6 +29,15 @@ import {
 import emailjs from '@emailjs/browser'; // Adicione esta linha
 import Logo from './assets/android-chrome-512x512.png';
 
+// Importe as imagens dos prints
+import printDashboard from './assets/dashboards.png';
+import printAtendimentos from './assets/atendimentos.png';
+import printRelatorios from './assets/relatorios.png';
+import printNovoAtendimento from './assets/novoAtendimento.png';
+import printDetalheAtendimento from './assets/detalhesAtendiemntos.png';
+import printLogin from './assets/login.png';
+import printAnexos from './assets/anexos.png';
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -79,6 +88,9 @@ function App() {
     }
     setIsMenuOpen(false);
   };
+
+  // Estado para modal de imagem expandida
+  const [expandedImg, setExpandedImg] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-white">
@@ -279,15 +291,61 @@ function App() {
         </div>
       </section>
 
+      {/* Prints do Sistema */}
+      <section id="prints" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Prints do Sistema
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Veja como é a interface do sistema na prática.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[printDashboard, printAtendimentos, printRelatorios, printNovoAtendimento, printDetalheAtendimento, printLogin, printAnexos].map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt={`Print ${idx + 1}`}
+                className="rounded-xl shadow-lg border cursor-pointer transition-transform hover:scale-105"
+                onClick={() => setExpandedImg(img)}
+              />
+            ))}
+          </div>
+        </div>
+        {/* Modal de imagem expandida */}
+        {expandedImg && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+            onClick={() => setExpandedImg(null)}
+          >
+            <img
+              src={expandedImg}
+              alt="Print expandido"
+              className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl border-4 border-white"
+              onClick={e => e.stopPropagation()}
+            />
+            <button
+              className="absolute top-8 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80"
+              onClick={() => setExpandedImg(null)}
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+          </div>
+        )}
+      </section>
+
       {/* Telas do Sistema */}
       <section id="telas" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Visão Geral das Telas
+              Screens Overview
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Conheça as principais telas do sistema e suas funcionalidades.
+              Discover the main screens of the system and their features.
             </p>
           </div>
 
@@ -296,44 +354,44 @@ function App() {
               {
                 icon: LogIn,
                 title: 'LoginPage',
-                description: 'Tela de autenticação moderna com suporte a login e cadastro.',
-                highlight: 'Seguro e com design responsivo.'
+                description: 'Modern authentication screen with support for login and registration.',
+                highlight: 'Secure and responsive design.'
               },
               {
                 icon: LayoutDashboard,
                 title: 'DashboardPage',
-                description: 'Painel com resumo dos atendimentos e estatísticas do mês.',
-                highlight: 'Botão para novo atendimento e lista dos mais recentes.'
+                description: 'Panel with a summary of service calls and monthly statistics.',
+                highlight: 'Button for new service call and list of the most recent ones.'
               },
               {
                 icon: FileText,
                 title: 'ServiceRecordsPage',
-                description: 'Listagem completa dos atendimentos com filtros por status, cliente, técnico.',
-                highlight: 'Busca inteligente e ações rápidas.'
+                description: 'Complete listing of service calls with filters by status, client, and technician.',
+                highlight: 'Smart search and quick actions.'
               },
               {
                 icon: Edit,
                 title: 'ServiceRecordFormPage',
-                description: 'Formulário de cadastro/edição com campos completos e upload de anexos.',
-                highlight: 'Suporta PDF, imagens e vídeos.'
+                description: 'Registration/edit form with complete fields and attachment upload.',
+                highlight: 'Supports PDF, images, and videos.'
               },
               {
                 icon: Eye,
                 title: 'ServiceRecordDetailPage',
-                description: 'Visualização detalhada de cada atendimento.',
-                highlight: 'Edição e exclusão com segurança.'
+                description: 'Detailed view of each service call.',
+                highlight: 'Secure editing and deletion.'
               },
               {
                 icon: Paperclip,
                 title: 'AttachmentsPage',
-                description: 'Central de anexos com busca por nome, cliente ou OF.',
-                highlight: 'Download direto dos arquivos.'
+                description: 'Attachment center with search by name, client, or work order.',
+                highlight: 'Direct file download.'
               },
               {
                 icon: TrendingUp,
                 title: 'ReportsPage',
-                description: 'Relatórios filtráveis e exportação em Excel/PDF.',
-                highlight: 'Custos, status e produtividade da equipe.'
+                description: 'Filterable reports and export to Excel/PDF.',
+                highlight: 'Team costs, status, and productivity.'
               }
             ].map((screen, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
@@ -368,10 +426,14 @@ function App() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="bg-white text-blue-600 px-8 py-4 rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 font-semibold">
+              <a
+                href="/releases/Sistema%20Posvenda%20Cimasp.exe"
+                download
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 font-semibold"
+              >
                 <Download className="w-5 h-5" />
                 <span>Baixar Versão Demo</span>
-              </button>
+              </a>
               <p className="text-blue-100 text-sm">
                 Arquivo .exe • Windows 10/11 • 45MB
               </p>
