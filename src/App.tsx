@@ -26,6 +26,8 @@ import {
   Users,
   Zap
 } from 'lucide-react';
+import emailjs from '@emailjs/browser'; // Adicione esta linha
+import Logo from './assets/android-chrome-512x512.png';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,12 +44,32 @@ function App() {
     });
   };
 
+  // Referência para o formulário
+  const formRef = React.useRef<HTMLFormElement>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Mensagem enviada com sucesso!');
-    setFormData({ name: '', email: '', message: '' });
+
+    // Envio automático via EmailJS
+    if (formRef.current) {
+      emailjs
+        .sendForm(
+          'service_ymsx9tb', // Substitua pelo seu service_id do EmailJS
+          'template_jzfzvww', // Substitua pelo seu template_id do EmailJS
+          formRef.current,
+          'Q4Ri7TESdrrlc45_d' // Substitua pelo seu public_key do EmailJS
+        )
+        .then(
+          () => {
+            alert('Mensagem enviada com sucesso!');
+            setFormData({ name: '', email: '', message: '' });
+          },
+          (error) => {
+            alert('Erro ao enviar mensagem. Tente novamente.');
+            console.error(error);
+          }
+        );
+    }
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -66,9 +88,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
+              <img src={Logo} alt="Logo Atendimento Técnico" className="w-8 h-8 rounded-lg" />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Alpha Devss
               </span>
@@ -405,7 +425,7 @@ function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Email</h3>
-                    <p className="text-gray-600">contato@alphadevss.com</p>
+                    <p className="text-gray-600">alphadevss@gmail.com</p>
                   </div>
                 </div>
                 
@@ -415,24 +435,32 @@ function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">WhatsApp</h3>
-                    <p className="text-gray-600">(11) 99999-9999</p>
+                    <p className="text-gray-600">(62) 99681-4937</p>
                   </div>
                 </div>
               </div>
 
               <div className="flex space-x-4">
-                <button className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors flex items-center space-x-2">
+                <a
+                  href="https://wa.me/5562996814937"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors flex items-center space-x-2"
+                >
                   <MessageCircle className="w-5 h-5" />
                   <span>WhatsApp</span>
-                </button>
-                <button className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors flex items-center space-x-2">
+                </a>
+                <a
+                  href="mailto:alphadevss@gmail.com"
+                  className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors flex items-center space-x-2"
+                >
                   <Mail className="w-5 h-5" />
                   <span>Email</span>
-                </button>
+                </a>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                   Nome
